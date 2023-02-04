@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'io.ebean' version '12.11.5'
 }
 
 group 'hexlet.code'
@@ -23,6 +24,17 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation "io.javalin:javalin:5.3.2"
     implementation 'org.slf4j:slf4j-simple:2.0.3'
+    implementation 'io.ebean:ebean-querybean:12.11.5'
+    implementation 'io.ebean:ebean-annotation:7.3'
+    implementation 'io.ebean:ebean:12.11.5'
+    implementation 'io.ebean:ebean-ddl-generator:12.11.5'
+    implementation 'io.ebean:ebean-migration:12.11.2'
+    annotationProcessor 'io.ebean:querybean-generator:12.11.5'
+
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.5'
+    implementation 'javax.activation:activation:1.1.1'
+
+    implementation 'com.h2database:h2:1.4.200'
 }
 
 task stage(dependsOn: ['clean', 'installDist'])
@@ -30,4 +42,9 @@ installDist.mustRunAfter clean
 
 test {
     useJUnitPlatform()
+}
+
+task generateMigrations(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'hexlet.code.MigrationGenerator'
 }
