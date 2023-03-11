@@ -16,19 +16,19 @@ public class Url extends Model {
     @WhenCreated
     Instant createdAt;
 
-    public Url(String domain) {
-        this.domain = domain;
+    public Url(String url) {
+        this.domain = url;
     }
 
-    public long getId() {
+    public final long getId() {
         return id;
     }
 
-    public String getDomain() {
+    public final String getDomain() {
         return domain;
     }
 
-    public Instant getCreatedAt() {
+    public final Instant getCreatedAt() {
         return createdAt;
     }
 }

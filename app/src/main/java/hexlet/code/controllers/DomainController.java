@@ -12,7 +12,9 @@ import java.util.List;
 
 public final class DomainController {
 
-    public static boolean isUrl (String url) {
+    private static final int ROWS_PER_PAGE = 10;
+
+    public static boolean isUrl(String url) {
         try {
             new URL(url).toURI();
             return true;
@@ -47,12 +49,11 @@ public final class DomainController {
 
     public static Handler showDomains = ctx -> {
         int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
-        int rowsPerPage = 10;
-        int offset = (page - 1) * rowsPerPage;
+        int offset = (page - 1) * ROWS_PER_PAGE;
 
         PagedList<Url> pagedUrls = new QUrl()
                 .setFirstRow(offset)
-                .setMaxRows(rowsPerPage)
+                .setMaxRows(ROWS_PER_PAGE)
                 .orderBy()
                 .id.asc()
                 .findPagedList();
