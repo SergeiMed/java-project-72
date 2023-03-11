@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.controllers.DomainController;
 import hexlet.code.controllers.WelcomeController;
 import io.javalin.Javalin;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
@@ -7,6 +8,8 @@ import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class App {
 
@@ -36,17 +39,32 @@ public class App {
         return templateEngine;
     }
 
+    private static void addRoutes(Javalin app) {
+        app.get("/", WelcomeController.welcome);
+        app.routes(() -> {
+            path("/urls", () -> {
+                post(DomainController.addDomain);
+                get(DomainController.showDomains);
+            });
+            path("/urls/{id}", () -> {
+                get(DomainController.showDomain);
+            });
+        });
+
+    }
+
     public static Javalin getApp() {
         Javalin app = Javalin.create(config -> {
             if (!isProduction()) {
                 config.enableDevLogging();
             }
+            config.enableWebjars();
             JavalinThymeleaf.configure(getTemplateEngine());
         });
         app.before(ctx -> {
             ctx.attribute("ctx", ctx);
         });
-        app.get("/", WelcomeController.welcome);
+        addRoutes(app);
         return app;
     }
 
