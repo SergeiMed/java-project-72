@@ -9,6 +9,10 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div><section layout:fragment="content"></section></div>
+<div class="container mt-3">
+    <div th:if="${session.flash}" class="alert alert-info" role="alert" th:text="${session.flash}"></div>
+    <div th:if="${session.flash}" th:text="${#session.removeAttribute('flash')}"></div>
+    <section layout:fragment="content"></section>
+</div>
 </body>
 </html>
