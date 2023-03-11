@@ -5,6 +5,13 @@
     <title>Welcome</title>
 </head>
 <section layout:fragment="content">
-    Hello World
+    <h1>Добавить сайт</h1>
+    <form action="/urls" method="post">
+        <div>
+            <label>URL</label>
+            <input type="text" name="url">
+        </div>
+        <button class="btn btn-primary" type="submit">Добавить</button>
+    </form>
 </section>
 </html>

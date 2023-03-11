@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/application.html}">
+<head>
+    <title>URL</title>
+</head>
+<section layout:fragment="content" th:object="${url}">
+    <p th:text=*{domain}></p>
+</section>
+</html>
