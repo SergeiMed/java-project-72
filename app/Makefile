@@ -1,0 +1,2 @@
+report:
+	./gradlew jacocoTestReport
