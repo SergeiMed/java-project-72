@@ -52,8 +52,13 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
+//tasks.withType(JavaCompile) {
+//    options.encoding = "UTF-8"
+//}
+
+compileJava {
+    options.release = 17
+    options.encoding = 'UTF-8'
 }
 
 test {
