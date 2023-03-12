@@ -17,7 +17,8 @@ import io.ebean.Database;
 
 public class AppTest {
 
-
+    private static final int STATUS_OK = 200;
+    private static final int STATUS_REDIRECT = 302;
     private static Javalin app;
     private static String baseUrl;
     private static Database database;
@@ -37,7 +38,7 @@ public class AppTest {
     }
 
     @BeforeEach
-    void beforeEach() {
+    final void beforeEach() {
         database.script().run("/truncate.sql");
         database.script().run("/seed-test-db.sql");
     }
@@ -45,7 +46,7 @@ public class AppTest {
     @Test
     void testIndex() {
         HttpResponse<String> response = Unirest.get(baseUrl).asString();
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getStatus()).isEqualTo(STATUS_OK);
         assertThat(response.getBody()).contains("Анализатор страниц");
     }
 
@@ -60,7 +61,7 @@ public class AppTest {
                     .field("url", inputUrl)
                     .asEmpty();
 
-            assertThat(responsePost.getStatus()).isEqualTo(302);
+            assertThat(responsePost.getStatus()).isEqualTo(STATUS_REDIRECT);
             assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/urls");
 
             HttpResponse<String> response = Unirest
@@ -68,7 +69,7 @@ public class AppTest {
                     .asString();
             String body = response.getBody();
 
-            assertThat(response.getStatus()).isEqualTo(200);
+            assertThat(response.getStatus()).isEqualTo(STATUS_OK);
             assertThat(body).contains("github.com");
             assertThat(body).contains("Страница успешно добавлена");
 
