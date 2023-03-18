@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/application.html}">
+<head>
+    <title>URLS</title>
+</head>
+<section layout:fragment="content">
+    <table class="table">
+        <tr th:each="urlCheck : ${urlChecks}" th:object="${urlCheck}">
+            <td th:text="*{id}"></td>
+            <td th:text="*{createdAt}"></td>
+        </tr>
+    </table>
+</section>
+</html>

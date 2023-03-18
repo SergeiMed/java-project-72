@@ -5,10 +5,35 @@
     <title>URLS</title>
 </head>
 <section layout:fragment="content">
-    <table class="table">
-        <tr th:each="url : ${urls}" th:object="${url}">
-            <td th:text="*{domain}"></td>
-        </tr>
-    </table>
+    <div class="container-lg mt-5">
+        <h1>Сайты</h1>
+        <table class="table table-bordered table-hover mt-3">
+            <thead>
+            <tr>
+                <th class="col-1">ID</th>
+                <th>Имя</th>
+                <th>Последняя проверка</th>
+                <th class="col-1">Код ответа</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="url : ${urls}" th:object="${url}">
+                <td th:text="*{id}"></td>
+                <td>
+                    <a th:href="@{/urls/{id}(id=*{id})}" th:text="*{domain}"></a>
+                </td>
+                <td th:text="*{getLastCheck() != null} ? *{getLastCheck().createdAt} : ''"></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<!--    <table class="table">-->
+<!--        <tr th:each="url : ${urls}" th:object="${url}">-->
+<!--            <td th:text="*{domain}"></td>-->
+<!--            <td th:text="*{getLastCheck().createdAt}"></td>-->
+<!--        </tr>-->
+<!--    </table>-->
 </section>
 </html>
