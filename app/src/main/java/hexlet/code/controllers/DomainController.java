@@ -1,7 +1,9 @@
 package hexlet.code.controllers;
 
 import hexlet.code.Url;
+import hexlet.code.UrlCheck;
 import hexlet.code.query.QUrl;
+import hexlet.code.query.QUrlCheck;
 import io.ebean.PagedList;
 import io.javalin.http.Handler;
 
@@ -31,7 +33,7 @@ public final class DomainController {
             return;
         }
         URL urlFromRequest = new URL(url);
-        String normalizedUrlFromRequest = urlFromRequest.getAuthority();
+        String normalizedUrlFromRequest = "http://" + urlFromRequest.getAuthority();
         Url newUrl = new Url(normalizedUrlFromRequest);
         boolean urlExists =
                 new QUrl()
@@ -51,6 +53,10 @@ public final class DomainController {
         int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
         int offset = (page - 1) * ROWS_PER_PAGE;
 
+        List<UrlCheck> urlChecks = new QUrlCheck()
+                .id.asc()
+                .findList();
+
         PagedList<Url> pagedUrls = new QUrl()
                 .setFirstRow(offset)
                 .setMaxRows(ROWS_PER_PAGE)
@@ -58,6 +64,7 @@ public final class DomainController {
                 .id.asc()
                 .findPagedList();
         List<Url> urls = pagedUrls.getList();
+        ctx.attribute("urlChecks", urlChecks);
         ctx.attribute("urls", urls);
         ctx.attribute("page", page);
         ctx.render("showAllUrls.html");
@@ -68,8 +75,47 @@ public final class DomainController {
         Url url = new QUrl()
                 .id.equalTo(id)
                 .findOne();
+        UrlCheck urlCheck = new UrlCheck(url);
+        urlCheck.save();
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
+        int offset = (page - 1) * ROWS_PER_PAGE;
 
+        PagedList<UrlCheck> pagedUrls = new QUrlCheck()
+                .setFirstRow(offset)
+                .setMaxRows(ROWS_PER_PAGE)
+                .orderBy()
+                .url.equalTo(url)
+                .id.asc()
+                .findPagedList();
+        List<UrlCheck> urlChecks = pagedUrls.getList();
+
+        ctx.attribute("urlChecks", urlChecks);
         ctx.attribute("url", url);
         ctx.render("showUrl.html");
     };
+
+//    public static Handler checkDomain = ctx -> {
+//        long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
+//        Url url = new QUrl()
+//                .id.equalTo(id)
+//                .findOne();
+//        UrlCheck urlCheck = new UrlCheck(url);
+//        urlCheck.save();
+//        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
+//        int offset = (page - 1) * ROWS_PER_PAGE;
+//
+//        PagedList<UrlCheck> pagedUrls = new QUrlCheck()
+//                .setFirstRow(offset)
+//                .setMaxRows(ROWS_PER_PAGE)
+//                .orderBy()
+//                .url.equalTo(url)
+//                .id.asc()
+//                .findPagedList();
+//        List<UrlCheck> urlChecks = pagedUrls.getList();
+//
+//        ctx.attribute("urlChecks", urlChecks);
+//        ctx.attribute("url", url);
+//        ctx.render("showUrl.html");
+//        ctx.redirect("/urls/" + id);
+//    };
 }
