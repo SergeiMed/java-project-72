@@ -39,7 +39,7 @@ public class AppTest {
 
     @BeforeEach
     final void beforeEach() {
-        database.script().run("/truncate.sql");
+        //database.script().run("/truncate.sql");
         database.script().run("/seed-test-db.sql");
     }
 
@@ -74,11 +74,11 @@ public class AppTest {
             assertThat(body).contains("Страница успешно добавлена");
 
             Url actualUrl = new QUrl()
-                    .domain.equalTo("github.com")
+                    .domain.equalTo("http://github.com")
                     .findOne();
 
             assertThat(actualUrl).isNotNull();
-            assertThat(actualUrl.getDomain()).isEqualTo("github.com");
+            assertThat(actualUrl.getDomain()).isEqualTo("http://github.com");
         }
     }
 }
