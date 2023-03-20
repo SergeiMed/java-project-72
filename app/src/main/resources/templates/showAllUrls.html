@@ -23,17 +23,11 @@
                 <td>
                     <a th:href="@{/urls/{id}(id=*{id})}" th:text="*{domain}"></a>
                 </td>
-                <td th:text="*{getLastCheck() != null} ? *{getLastCheck().createdAt} : ''"></td>
-                <td></td>
+                <td th:text="*{getLastCheck() != null} ? *{#temporals.format(getLastCheck().createdAT, 'dd/MM/yyyy HH:mm')} : ''"></td>
+                <td th:text="*{getLastCheck() != null} ? *{getLastCheck().statusCode} : ''"></td>
             </tr>
             </tbody>
         </table>
     </div>
-<!--    <table class="table">-->
-<!--        <tr th:each="url : ${urls}" th:object="${url}">-->
-<!--            <td th:text="*{domain}"></td>-->
-<!--            <td th:text="*{getLastCheck().createdAt}"></td>-->
-<!--        </tr>-->
-<!--    </table>-->
 </section>
 </html>

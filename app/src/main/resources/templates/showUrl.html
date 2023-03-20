@@ -19,47 +19,36 @@
             </tr>
             <tr>
                 <td>Дата создания</td>
-                <td th:text="*{getLastCheck() != null} ? *{getLastCheck().createdAt} : ''"></td>
+                <td th:text="*{#temporals.format(createdAT, 'dd/MM/yyyy HH:mm')}"></td>
             </tr>
             </tbody>
         </table>
         <h2 class="mt-5">Проверки</h2>
-        <form th:action="@{/urls/{id}(id=*{id})}" method="post">
+        <form th:action="@{/urls/{id}/checks(id=*{id})}" method="post">
             <button class="btn btn-primary" type="submit">Запустить проверку</button>
         </form>
         <table class="table table-bordered table-hover mt-3">
             <thead>
-            <tr>
-                <th class="col-1">ID</th>
-                <th class="col-1">Код ответа</th>
-                <th>Title</th>
-                <th>h1</th>
-                <th>Description</th>
-                <th class="col-2">Дата проверки</th>
-            </tr>
+                <tr>
+                    <th class="col-1">ID</th>
+                    <th class="col-1">Код ответа</th>
+                    <th>Title</th>
+                    <th>h1</th>
+                    <th>Description</th>
+                    <th class="col-2">Дата проверки</th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="urlCheck : ${urlChecks}" th:object="${urlCheck}">
-                <td th:text=*{id}></td>
-                <td>fdghfdh</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td th:text="*{createdAt}"></td>
-            </tr>
+                <tr th:each="urlCheck : ${urlChecks}" th:object="${urlCheck}">
+                    <td th:text=*{id}></td>
+                    <td th:text=*{statusCode}></td>
+                    <td th:text=*{title}></td>
+                    <td th:text=*{h1}></td>
+                    <td th:text=*{description}></td>
+                    <td th:text="*{#temporals.format(createdAT, 'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
             </tbody>
         </table>
     </div>
-<!--    <div class="card" th:object="${url}">-->
-<!--    <p th:text=*{domain}></p>-->
-<!--    <p th:text=*{id}></p>-->
-<!--    <p th:text=*{getLastCheck().id}></p>-->
-<!--    </div>-->
-<!--    <div class="card-footer" th:object="${url}">-->
-<!--    <form th:action="@{/urls/{id}/checks(id=*{id})}" method="post">-->
-<!--        <button class="btn btn-primary" type="submit">Проверить</button>-->
-<!--    </form>-->
-<!--        <a class="page-link" th:href="@{/urls/{id}/checks/(id=*{id})}">Next</a>-->
-<!--    </div>-->
 </section>
 </html>

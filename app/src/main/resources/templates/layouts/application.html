@@ -20,8 +20,12 @@
     </div>
 </nav>
 
-    <div th:if="${session.flash}" class="alert alert-info mb-0" role="alert" th:text="${session.flash}"></div>
-    <div th:if="${session.flash}" th:text="${#session.removeAttribute('flash')}"></div>
+    <div th:if="${session.flashSuccess}" class="alert alert-success mb-0" role="alert" th:text="${session.flashSuccess}"></div>
+    <div th:if="${session.flashDanger}" class="alert alert-danger mb-0" role="alert" th:text="${session.flashDanger}"></div>
+    <div th:if="${session.flashInfo}" class="alert alert-info mb-0" role="alert" th:text="${session.flashInfo}"></div>
+    <div th:if="${session.flashSuccess}" th:text="${#session.removeAttribute('flashSuccess')}"></div>
+    <div th:if="${session.flashDanger}" th:text="${#session.removeAttribute('flashDanger')}"></div>
+    <div th:if="${session.flashInfo}" th:text="${#session.removeAttribute('flashInfo')}"></div>
 <main class="flex-grow-1">
 <section layout:fragment="content"></section>
 </main>
