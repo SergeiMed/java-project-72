@@ -48,11 +48,9 @@ public class App {
         app.routes(() -> {
             path("/urls", () -> {
                 post(DomainController.addDomain);
-                post("{id}/checks", DomainController.showDomain);
-                get("{id}/checks", DomainController.showDomain);
+                post("{id}/checks", DomainController.checkDomain);
                 get(DomainController.showDomains);
                 get("{id}", DomainController.showDomain);
-                post("{id}", DomainController.showDomain);
             });
         });
 
