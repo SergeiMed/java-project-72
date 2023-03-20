@@ -3,55 +3,68 @@ package hexlet.code;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import java.time.Instant;
+
 @Entity
 public class UrlCheck extends Model {
 
     @Id
-    long id;
-    int statusCode;
-    String title;
-    String h1;
+    private long id;
+    private int statusCode;
+    private String title;
+    private String h1;
     @Lob
-    String description;
+    private String description;
     @ManyToOne
-    Url url;
+    private Url url;
     @WhenCreated
-    Instant createdAt;
+    private Instant createdAt;
 
-    public UrlCheck(Url url) {
-        this.url = url;
+    public UrlCheck(Url domain) {
+        this.url = domain;
+    }
+
+    public UrlCheck(int statCode, String tit, String h, String descript, Url domain) {
+        this.statusCode = statCode;
+        this.title = tit;
+        this.h1 = h;
+        this.description = descript;
+        this.url = domain;
     }
 
     public UrlCheck() {
     }
 
-    public long getId() {
+    public final long getId() {
         return id;
     }
 
-    public int getStatusCode() {
+    public final int getStatusCode() {
         return statusCode;
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return title;
     }
 
-    public String getH1() {
+    public final String getH1() {
         return h1;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
-    public Url getUrl() {
+    public final Url getUrl() {
         return url;
     }
 
-    public Instant getCreatedAt() {
+    public final Instant getCreatedAt() {
         return createdAt;
     }
 }
