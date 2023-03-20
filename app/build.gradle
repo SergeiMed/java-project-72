@@ -52,10 +52,6 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
 }
 
-//tasks.withType(JavaCompile) {
-//    options.encoding = "UTF-8"
-//}
-
 compileJava {
     options.release = 17
     options.encoding = 'UTF-8'
@@ -83,7 +79,7 @@ tasks.withType(Checkstyle) {
     reports {
         xml.required = false
         html.required = true
-        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-simple.xsl')
+        //html.stylesheet resources.text.fromFile('config/xsl/checkstyle-simple.xsl')
     }
 }
 
