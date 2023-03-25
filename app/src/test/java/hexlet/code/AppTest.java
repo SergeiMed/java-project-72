@@ -58,7 +58,7 @@ public class AppTest {
             String inputUrl = "https://github.com";
             HttpResponse<String> responsePost = Unirest
                     .post(baseUrl + "/urls")
-                    .field("name", inputUrl)
+                    .field("url", inputUrl)
                     .asEmpty();
 
             assertThat(responsePost.getStatus()).isEqualTo(STATUS_REDIRECT);
