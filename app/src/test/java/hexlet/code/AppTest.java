@@ -49,6 +49,7 @@ public class AppTest {
         assertThat(response.getStatus()).isEqualTo(STATUS_OK);
         assertThat(response.getBody()).contains("Анализатор страниц");
     }
+}
 
 //    @Nested
 //    class UrlTest {
