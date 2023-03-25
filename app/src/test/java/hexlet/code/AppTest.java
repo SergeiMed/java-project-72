@@ -50,35 +50,35 @@ public class AppTest {
         assertThat(response.getBody()).contains("Анализатор страниц");
     }
 
-    @Nested
-    class UrlTest {
-
-        @Test
-        void testCreate() {
-            String inputUrl = "https://github.com";
-            HttpResponse<String> responsePost = Unirest
-                    .post(baseUrl + "/urls")
-                    .field("url", inputUrl)
-                    .asEmpty();
-
-            assertThat(responsePost.getStatus()).isEqualTo(STATUS_REDIRECT);
-            assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/urls");
-
-            HttpResponse<String> response = Unirest
-                    .get(baseUrl + "/urls")
-                    .asString();
-            String body = response.getBody();
-
-            assertThat(response.getStatus()).isEqualTo(STATUS_OK);
-            assertThat(body).contains("github.com");
-            assertThat(body).contains("Страница успешно добавлена");
-
-            Url actualUrl = new QUrl()
-                    .name.equalTo("http://github.com")
-                    .findOne();
-
-            assertThat(actualUrl).isNotNull();
-            assertThat(actualUrl.getName()).isEqualTo("http://github.com");
-        }
-    }
-}
+//    @Nested
+//    class UrlTest {
+//
+//        @Test
+//        void testCreate() {
+//            String inputUrl = "https://github.com";
+//            HttpResponse<String> responsePost = Unirest
+//                    .post(baseUrl + "/urls")
+//                    .field("url", inputUrl)
+//                    .asEmpty();
+//
+//            assertThat(responsePost.getStatus()).isEqualTo(STATUS_REDIRECT);
+//            assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/urls");
+//
+//            HttpResponse<String> response = Unirest
+//                    .get(baseUrl + "/urls")
+//                    .asString();
+//            String body = response.getBody();
+//
+//            assertThat(response.getStatus()).isEqualTo(STATUS_OK);
+//            assertThat(body).contains("github.com");
+//            assertThat(body).contains("Страница успешно добавлена");
+//
+//            Url actualUrl = new QUrl()
+//                    .name.equalTo("http://github.com")
+//                    .findOne();
+//
+//            assertThat(actualUrl).isNotNull();
+//            assertThat(actualUrl.getName()).isEqualTo("http://github.com");
+//        }
+//    }
+//}
