@@ -27,7 +27,7 @@ public final class DomainController {
     }
 
     public static Handler addDomain = ctx -> {
-        String url = ctx.formParam("name");
+        String url = ctx.formParam("url");
         if (!isUrl(url)) {
             ctx.sessionAttribute("flashDanger", "Некорректный URL");
             ctx.redirect("/");
