@@ -74,11 +74,11 @@ public class AppTest {
             assertThat(body).contains("Страница успешно добавлена");
 
             Url actualUrl = new QUrl()
-                    .url.equalTo("http://github.com")
+                    .name.equalTo("http://github.com")
                     .findOne();
 
             assertThat(actualUrl).isNotNull();
-            assertThat(actualUrl.getUrl()).isEqualTo("http://github.com");
+            assertThat(actualUrl.getName()).isEqualTo("http://github.com");
         }
     }
 }
