@@ -6,7 +6,7 @@
 </head>
 <section layout:fragment="content">
     <div class="container-lg mt-5" th:object="${url}">
-        <h1 th:text="*{'Сайт' + ' ' + url}"></h1>
+        <h1 th:text="*{'Сайт' + ' ' + name}"></h1>
         <table class="table table-bordered table-hover mt-3">
             <tbody>
             <tr>
@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <td>Имя</td>
-                <td th:text=*{url}></td>
+                <td th:text=*{name}></td>
             </tr>
             <tr>
                 <td>Дата создания</td>

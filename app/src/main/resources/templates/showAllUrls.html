@@ -21,7 +21,7 @@
             <tr th:each="url : ${urls}" th:object="${url}">
                 <td th:text="*{id}"></td>
                 <td>
-                    <a th:href="@{/urls/{id}(id=*{id})}" th:text="*{url}"></a>
+                    <a th:href="@{/urls/{id}(id=*{id})}" th:text="*{name}"></a>
                 </td>
                 <td th:text="*{getLastCheck() != null} ? *{#temporals.format(getLastCheck().createdAT, 'dd/MM/yyyy HH:mm')} : ''"></td>
                 <td th:text="*{getLastCheck() != null} ? *{getLastCheck().statusCode} : ''"></td>
