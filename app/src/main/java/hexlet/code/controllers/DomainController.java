@@ -28,12 +28,12 @@ public final class DomainController {
 
     public static Handler addDomain = ctx -> {
         String url = ctx.formParam("url");
-        if (!isUrl(url) && url != null) {
+        if (!isUrl(url) && !url.equals("")) {
             ctx.sessionAttribute("flashDanger", "Некорректный URL");
             ctx.redirect("/");
             return;
         }
-        if (url != null) {
+        if (!url.equals("")) {
             URL urlFromRequest = new URL(url);
             String normalizedUrlFromRequest = "http://" + urlFromRequest.getAuthority();
             Url newUrl = new Url(normalizedUrlFromRequest);
