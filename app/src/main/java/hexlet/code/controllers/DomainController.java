@@ -32,7 +32,7 @@ public final class DomainController {
             ctx.sessionAttribute("flashDanger", "Некорректный URL");
             ctx.redirect("/");
             return;
-    }
+        }
         URL urlFromRequest = new URL(url);
         String normalizedUrlFromRequest = "http://" + urlFromRequest.getAuthority();
         Url newUrl = new Url(normalizedUrlFromRequest);
