@@ -27,7 +27,7 @@ public final class DomainController {
     }
 
     public static Handler addDomain = ctx -> {
-        String url = ctx.formParam("url");
+        String url = ctx.formParam("name");
         if (!isUrl(url)) {
             ctx.sessionAttribute("flashDanger", "Некорректный URL");
             ctx.redirect("/");
@@ -38,7 +38,7 @@ public final class DomainController {
         Url newUrl = new Url(normalizedUrlFromRequest);
         boolean urlExists =
                 new QUrl()
-                        .url.equalTo(normalizedUrlFromRequest)
+                        .name.equalTo(normalizedUrlFromRequest)
                         .exists();
         if (urlExists) {
             ctx.sessionAttribute("flashInfo", "Страница уже существует");
@@ -85,7 +85,7 @@ public final class DomainController {
                 .id.equalTo(id)
                 .findOne();
         try {
-            HttpResponse<String> response = Unirest.get(url.getUrl()).asString();
+            HttpResponse<String> response = Unirest.get(url.getName()).asString();
             int statusCode = response.getStatus();
             Document doc = Jsoup.parse(response.getBody());
             String title = doc.title();
