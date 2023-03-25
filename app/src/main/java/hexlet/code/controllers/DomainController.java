@@ -32,7 +32,7 @@ public final class DomainController {
             ctx.sessionAttribute("flashDanger", "Некорректный URL");
             ctx.redirect("/");
             return;
-        }
+    }
         URL urlFromRequest = new URL(url);
         String normalizedUrlFromRequest = "http://" + urlFromRequest.getAuthority();
         Url newUrl = new Url(normalizedUrlFromRequest);
@@ -42,7 +42,7 @@ public final class DomainController {
                         .exists();
         if (urlExists) {
             ctx.sessionAttribute("flashInfo", "Страница уже существует");
-            ctx.redirect("/");
+            ctx.redirect("/urls");
             return;
         }
         newUrl.save();
