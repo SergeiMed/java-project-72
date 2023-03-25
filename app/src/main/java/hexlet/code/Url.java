@@ -14,22 +14,22 @@ public class Url extends Model {
 
     @Id
     long id;
-    String domain;
+    String url;
     @WhenCreated
     Instant createdAt;
     @OneToMany
     List<UrlCheck> urlChecks;
 
-    public Url(String url) {
-        this.domain = url;
+    public Url(String domain) {
+        this.url = domain;
     }
 
     public final long getId() {
         return id;
     }
 
-    public final String getDomain() {
-        return domain;
+    public final String getUrl() {
+        return url;
     }
 
     public final Instant getCreatedAt() {

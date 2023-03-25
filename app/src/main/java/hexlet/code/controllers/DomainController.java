@@ -38,7 +38,7 @@ public final class DomainController {
         Url newUrl = new Url(normalizedUrlFromRequest);
         boolean urlExists =
                 new QUrl()
-                        .domain.equalTo(normalizedUrlFromRequest)
+                        .url.equalTo(normalizedUrlFromRequest)
                         .exists();
         if (urlExists) {
             ctx.sessionAttribute("flashInfo", "Страница уже существует");
@@ -85,7 +85,7 @@ public final class DomainController {
                 .id.equalTo(id)
                 .findOne();
         try {
-            HttpResponse<String> response = Unirest.get(url.getDomain()).asString();
+            HttpResponse<String> response = Unirest.get(url.getUrl()).asString();
             int statusCode = response.getStatus();
             Document doc = Jsoup.parse(response.getBody());
             String title = doc.title();

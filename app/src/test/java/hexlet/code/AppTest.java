@@ -78,7 +78,7 @@ public class AppTest {
                     .findOne();
 
             assertThat(actualUrl).isNotNull();
-            assertThat(actualUrl.getDomain()).isEqualTo("http://github.com");
+            assertThat(actualUrl.getUrl()).isEqualTo("http://github.com");
         }
     }
 }
