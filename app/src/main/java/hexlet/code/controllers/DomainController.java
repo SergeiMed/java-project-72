@@ -35,7 +35,15 @@ public final class DomainController {
         }
         if (url != null) {
             URL urlFromRequest = new URL(url);
-            String normalizedUrlFromRequest = "http://" + urlFromRequest.getAuthority();
+            String normalizedUrlFromRequest;
+            String protocol = urlFromRequest.getProtocol();
+            String host = urlFromRequest.getHost();
+            int port = urlFromRequest.getPort();
+            if (port != -1) {
+                normalizedUrlFromRequest = protocol + "://" + host + ":" + port;
+            } else {
+                normalizedUrlFromRequest = protocol + "://" + host;
+            }
             Url newUrl = new Url(normalizedUrlFromRequest);
             boolean urlExists =
                     new QUrl()
@@ -96,6 +104,7 @@ public final class DomainController {
                     ? doc.selectFirst("meta[name=description]").attr("content") : null;
             UrlCheck urlCheck = new UrlCheck(statusCode, title, h1, description, url);
             urlCheck.save();
+            ctx.sessionAttribute("flashSuccess", "Страница успешно проверена");
         } catch (RuntimeException e) {
             ctx.sessionAttribute("flashDanger", "Некорректный адрес");
         }
