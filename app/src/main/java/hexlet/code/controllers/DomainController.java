@@ -33,20 +33,22 @@ public final class DomainController {
             ctx.redirect("/");
             return;
         }
-        URL urlFromRequest = new URL(url);
-        String normalizedUrlFromRequest = "http://" + urlFromRequest.getAuthority();
-        Url newUrl = new Url(normalizedUrlFromRequest);
-        boolean urlExists =
-                new QUrl()
-                        .name.equalTo(normalizedUrlFromRequest)
-                        .exists();
-        if (urlExists) {
-            ctx.sessionAttribute("flashInfo", "Страница уже существует");
-            ctx.redirect("/urls");
-            return;
+        if (url != null) {
+            URL urlFromRequest = new URL(url);
+            String normalizedUrlFromRequest = "http://" + urlFromRequest.getAuthority();
+            Url newUrl = new Url(normalizedUrlFromRequest);
+            boolean urlExists =
+                    new QUrl()
+                            .name.equalTo(normalizedUrlFromRequest)
+                            .exists();
+            if (urlExists) {
+                ctx.sessionAttribute("flashInfo", "Страница уже существует");
+                ctx.redirect("/urls");
+                return;
+            }
+            newUrl.save();
+            ctx.sessionAttribute("flashSuccess", "Страница успешно добавлена");
         }
-        newUrl.save();
-        ctx.sessionAttribute("flashSuccess", "Страница успешно добавлена");
         ctx.redirect("/urls");
     };
 
