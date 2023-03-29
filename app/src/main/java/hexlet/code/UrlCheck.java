@@ -25,10 +25,6 @@ public class UrlCheck extends Model {
     @WhenCreated
     private Instant createdAt;
 
-    public UrlCheck(Url domain) {
-        this.url = domain;
-    }
-
     public UrlCheck(int statCode, String tit, String h, String descript, Url domain) {
         this.statusCode = statCode;
         this.title = tit;
