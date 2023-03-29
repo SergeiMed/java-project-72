@@ -6,5 +6,4 @@ ebean:
     dbName: test
   ddl:
     run: true
-    generate: true
     seedSql: seed-test-db.sql
