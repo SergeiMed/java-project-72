@@ -25,10 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class AppTest {
-
-    private static final int STATUS_OK = 200;
-    private static final int STATUS_REDIRECT = 302;
+class AppTest {
     private static Javalin app;
     private static String baseUrl;
     private static Transaction transaction;
@@ -72,13 +69,16 @@ public class AppTest {
         transaction.rollback();
     }
 
-    @Test
-    void testIndex() {
-        HttpResponse<String> responseGet = Unirest.get(baseUrl).asString();
-        assertThat(responseGet.getStatus()).isEqualTo(STATUS_OK);
-        assertThat(responseGet.getBody()).contains("Анализатор страниц");
-    }
+    @Nested
+    class RootTest {
 
+        @Test
+        void testIndex() {
+            HttpResponse<String> responseGet = Unirest.get(baseUrl).asString();
+            assertThat(responseGet.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+            assertThat(responseGet.getBody()).contains("Анализатор страниц");
+        }
+    }
     @Nested
     class UrlTest {
 
@@ -114,7 +114,7 @@ public class AppTest {
                     .name.equalTo(url)
                     .findOne();
 
-            assertThat(responsePost.getStatus()).isEqualTo(STATUS_REDIRECT);
+            assertThat(responsePost.getStatus()).isEqualTo(HttpServletResponse.SC_FOUND);
             assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/urls");
 
             HttpResponse<String> response = Unirest
@@ -122,7 +122,7 @@ public class AppTest {
                     .asString();
             String body = response.getBody();
 
-            assertThat(response.getStatus()).isEqualTo(STATUS_OK);
+            assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
             assertThat(body).contains(url);
             assertThat(body).contains("Страница успешно добавлена");
             assertThat(actualUrl).isNotNull();
@@ -136,7 +136,7 @@ public class AppTest {
                     .field("url", existingUrl.getName())
                     .asString();
 
-            assertThat(responsePost.getStatus()).isEqualTo(STATUS_REDIRECT);
+            assertThat(responsePost.getStatus()).isEqualTo(HttpServletResponse.SC_FOUND);
             assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/urls");
 
             HttpResponse<String> response = Unirest
@@ -144,7 +144,7 @@ public class AppTest {
                     .asString();
             String body = response.getBody();
 
-            assertThat(response.getStatus()).isEqualTo(STATUS_OK);
+            assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
             assertThat(body).contains("Страница уже существует");
         }
 
@@ -156,7 +156,7 @@ public class AppTest {
                     .field("url", incorrectUrl)
                     .asString();
 
-            assertThat(responsePost.getStatus()).isEqualTo(STATUS_REDIRECT);
+            assertThat(responsePost.getStatus()).isEqualTo(HttpServletResponse.SC_FOUND);
             assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/");
 
             HttpResponse<String> response = Unirest
@@ -164,7 +164,7 @@ public class AppTest {
                     .asString();
             String body = response.getBody();
 
-            assertThat(response.getStatus()).isEqualTo(STATUS_OK);
+            assertThat(response.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
             assertThat(body).contains("Некорректный URL");
 
         }
