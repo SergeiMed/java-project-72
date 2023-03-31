@@ -1,3 +1,9 @@
+# Анализатор страниц
+
+Учебный проект в рамках курса [Java-разработчик](https://ru.hexlet.io/programs/java) в [Hexlet](https://ru.hexlet.io).
+
+Анализатор страниц - сайт, который анализирует указанные страницы на SEO пригодность.
+
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/SergeiMed/java-project-72/workflows/hexlet-check/badge.svg)](https://github.com/SergeiMed/java-project-72/actions)
 [![Actions Status](https://github.com/SergeiMed/java-project-72/workflows/main/badge.svg)](https://github.com/SergeiMed/java-project-72/actions)
