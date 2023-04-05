@@ -1,6 +1,6 @@
 package hexlet.code;
 
-import hexlet.code.controllers.DomainController;
+import hexlet.code.controllers.UrlController;
 import hexlet.code.controllers.WelcomeController;
 import io.javalin.Javalin;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
@@ -16,17 +16,21 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 
 public class App {
 
+    private static final String DEFAULT_PORT = "5000";
+    private static final String DEVELOPMENT_ENV = "development";
+    private static final String PRODUCTION_ENV = "production";
+
     private static int getPort() {
-        String port = System.getenv().getOrDefault("PORT", "5000");
+        String port = System.getenv().getOrDefault("PORT", DEFAULT_PORT);
         return Integer.parseInt(port);
     }
 
     private static String getMode() {
-        return System.getenv().getOrDefault("APP_ENV", "development");
+        return System.getenv().getOrDefault("APP_ENV", DEVELOPMENT_ENV);
     }
 
     private static boolean isProduction() {
-        return getMode().equals("production");
+        return getMode().equals(PRODUCTION_ENV);
     }
 
     private static TemplateEngine getTemplateEngine() {
@@ -47,10 +51,10 @@ public class App {
         app.get("/", WelcomeController.welcome);
         app.routes(() -> {
             path("/urls", () -> {
-                post(DomainController.addDomain);
-                post("{id}/checks", DomainController.checkDomain);
-                get(DomainController.showDomains);
-                get("{id}", DomainController.showDomain);
+                post(UrlController.addUrl);
+                post("{id}/checks", UrlController.checkUrl);
+                get(UrlController.showUrls);
+                get("{id}", UrlController.showUrl);
             });
         });
 
