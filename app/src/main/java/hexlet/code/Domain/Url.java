@@ -1,4 +1,4 @@
-package hexlet.code;
+package hexlet.code.Domain;
 
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
@@ -34,6 +34,10 @@ public class Url extends Model {
 
     public final Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public final List<UrlCheck> getUrlChecks() {
+        return urlChecks;
     }
 
     public final UrlCheck getLastCheck() {
