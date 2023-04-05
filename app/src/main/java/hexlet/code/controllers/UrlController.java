@@ -1,9 +1,9 @@
 package hexlet.code.controllers;
 
-import hexlet.code.Url;
-import hexlet.code.UrlCheck;
-import hexlet.code.query.QUrl;
-import hexlet.code.query.QUrlCheck;
+import hexlet.code.Domain.Url;
+import hexlet.code.Domain.UrlCheck;
+import hexlet.code.Domain.query.QUrl;
+import hexlet.code.Domain.query.QUrlCheck;
 import io.javalin.http.Handler;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -11,56 +11,48 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-public final class DomainController {
+public final class UrlController {
 
-    public static boolean isUrl(String url) {
+    private static Url createUrl(String url) {
         try {
-            new URL(url).toURI();
-            return true;
-        } catch (URISyntaxException | MalformedURLException e) {
-            return false;
+            URL newUrl = new URL(url);
+            String normalizedUrl;
+            String protocol = newUrl.getProtocol();
+            String host = newUrl.getHost();
+            int port = newUrl.getPort();
+            normalizedUrl = port == -1 ? protocol + "://" + host : protocol + "://" + host + ":" + port;
+            return new Url(normalizedUrl);
+        } catch (MalformedURLException e) {
+            return null;
         }
     }
 
-    public static Handler addDomain = ctx -> {
+    public static Handler addUrl = ctx -> {
         String url = ctx.formParam("url");
-        if (!isUrl(url) && url != null) {
+        Url newUrl = createUrl(url);
+        if (newUrl == null) {
             ctx.sessionAttribute("flashDanger", "Некорректный URL");
             ctx.redirect("/");
             return;
         }
-        if (url != null) {
-            URL urlFromRequest = new URL(url);
-            String normalizedUrlFromRequest;
-            String protocol = urlFromRequest.getProtocol();
-            String host = urlFromRequest.getHost();
-            int port = urlFromRequest.getPort();
-            if (port != -1) {
-                normalizedUrlFromRequest = protocol + "://" + host + ":" + port;
-            } else {
-                normalizedUrlFromRequest = protocol + "://" + host;
-            }
-            Url newUrl = new Url(normalizedUrlFromRequest);
-            boolean urlExists =
-                    new QUrl()
-                            .name.equalTo(normalizedUrlFromRequest)
-                            .exists();
-            if (urlExists) {
-                ctx.sessionAttribute("flashInfo", "Страница уже существует");
-                ctx.redirect("/urls");
-                return;
-            }
-            newUrl.save();
-            ctx.sessionAttribute("flashSuccess", "Страница успешно добавлена");
+        boolean urlExists =
+                new QUrl()
+                        .name.equalTo(newUrl.getName())
+                        .exists();
+        if (urlExists) {
+            ctx.sessionAttribute("flashInfo", "Страница уже существует");
+            ctx.redirect("/urls");
+            return;
         }
+        newUrl.save();
+        ctx.sessionAttribute("flashSuccess", "Страница успешно добавлена");
         ctx.redirect("/urls");
     };
 
-    public static Handler showDomains = ctx -> {
+    public static Handler showUrls = ctx -> {
         List<UrlCheck> urlChecks = new QUrlCheck()
                 .id.asc()
                 .findList();
@@ -68,32 +60,32 @@ public final class DomainController {
                 .orderBy()
                 .id.asc()
                 .findList();
-        ctx.attribute("urlChecks", urlChecks);
         ctx.attribute("urls", urls);
         ctx.render("showAllUrls.html");
     };
 
-    public static Handler showDomain = ctx -> {
+    public static Handler showUrl = ctx -> {
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
         Url url = new QUrl()
                 .id.equalTo(id)
                 .findOne();
-        List<UrlCheck> urlChecks = new QUrlCheck()
-                .orderBy()
-                .url.equalTo(url)
-                .id.desc()
-                .findList();
+        List<UrlCheck> urlChecks = url.getUrlChecks();
         ctx.attribute("urlChecks", urlChecks);
         ctx.attribute("url", url);
         ctx.render("showUrl.html");
     };
 
-    public static Handler checkDomain = ctx -> {
+    public static Handler checkUrl = ctx -> {
         long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
 
         Url url = new QUrl()
                 .id.equalTo(id)
                 .findOne();
+
+        if (url == null) {
+            ctx.sessionAttribute("flashDanger", "Некорректный URL");
+            ctx.redirect("/urls/");
+        }
         try {
             HttpResponse<String> response = Unirest.get(url.getName()).asString();
             int statusCode = response.getStatus();
