@@ -19,11 +19,11 @@ public final class UrlController {
     private static Url createUrl(String url) {
         try {
             URL newUrl = new URL(url);
-            String normalizedUrl;
             String protocol = newUrl.getProtocol();
             String host = newUrl.getHost();
             int port = newUrl.getPort();
-            normalizedUrl = port == -1 ? protocol + "://" + host : protocol + "://" + host + ":" + port;
+            String baseNewUrl = protocol + "://" + host;
+            String normalizedUrl = port == -1 ? baseNewUrl : baseNewUrl + ":" + port;
             return new Url(normalizedUrl);
         } catch (MalformedURLException e) {
             return null;
@@ -53,9 +53,6 @@ public final class UrlController {
     };
 
     public static Handler showUrls = ctx -> {
-        List<UrlCheck> urlChecks = new QUrlCheck()
-                .id.asc()
-                .findList();
         List<Url> urls = new QUrl()
                 .orderBy()
                 .id.asc()
@@ -97,6 +94,8 @@ public final class UrlController {
             UrlCheck urlCheck = new UrlCheck(statusCode, title, h1, description, url);
             urlCheck.save();
             ctx.sessionAttribute("flashSuccess", "Страница успешно проверена");
+        } catch (NullPointerException e) {
+            System.out.println("input URL ID is null");
         } catch (RuntimeException e) {
             ctx.sessionAttribute("flashDanger", "Некорректный адрес");
         }
