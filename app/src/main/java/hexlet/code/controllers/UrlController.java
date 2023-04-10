@@ -44,6 +44,7 @@ public final class UrlController {
         if (urlExists) {
             ctx.sessionAttribute("flashInfo", "Страница уже существует");
             ctx.redirect("/urls");
+            newUrl.delete();
             return;
         }
         newUrl.save();
