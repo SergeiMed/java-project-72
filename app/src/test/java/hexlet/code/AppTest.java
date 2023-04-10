@@ -1,9 +1,9 @@
 package hexlet.code;
 
-import hexlet.code.Domain.Url;
-import hexlet.code.Domain.UrlCheck;
-import hexlet.code.Domain.query.QUrl;
-import hexlet.code.Domain.query.QUrlCheck;
+import hexlet.code.domain.Url;
+import hexlet.code.domain.UrlCheck;
+import hexlet.code.domain.query.QUrl;
+import hexlet.code.domain.query.QUrlCheck;
 import io.ebean.Transaction;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;

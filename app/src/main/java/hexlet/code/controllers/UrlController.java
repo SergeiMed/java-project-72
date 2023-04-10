@@ -1,9 +1,9 @@
 package hexlet.code.controllers;
 
-import hexlet.code.Domain.Url;
-import hexlet.code.Domain.UrlCheck;
-import hexlet.code.Domain.query.QUrl;
-import hexlet.code.Domain.query.QUrlCheck;
+import hexlet.code.domain.Url;
+import hexlet.code.domain.UrlCheck;
+import hexlet.code.domain.query.QUrl;
+import hexlet.code.domain.query.QUrlCheck;
 import io.javalin.http.Handler;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
